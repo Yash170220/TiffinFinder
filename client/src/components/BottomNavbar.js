@@ -6,10 +6,12 @@ import {
     Paper,
 } from '@mui/material';
 import { AddLocationAlt, LocationOn, Restaurant } from '@mui/icons-material';
+import InfoIcon from '@mui/icons-material/Info';
 
 import ClusterMap from './map/ClusterMap';
 import Tiffins from './tiffin/Tiffins';
 import AddTiffins from './addTiffin/AddTiffins';
+import AboutUs from './AboutUs';
 
 const BottomNavbar = () => {
     const [value, setValue] = useState(0);
@@ -24,6 +26,7 @@ const BottomNavbar = () => {
                     0: <ClusterMap />,
                     1: <Tiffins />,
                     2: <AddTiffins setPage={setValue} />,
+                    3: <AboutUs />,
                 }[value]
             }
             <Paper
@@ -50,6 +53,7 @@ const BottomNavbar = () => {
                         label='Add'
                         icon={<AddLocationAlt />}
                     />
+                    <BottomNavigationAction label='Info' icon={<InfoIcon />} />
                 </BottomNavigation>
             </Paper>
         </Box>
