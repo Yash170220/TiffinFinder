@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import {
     AppBar,
     Box,
@@ -13,10 +14,14 @@ import DownloadIcon from '@mui/icons-material/Download';
 
 import UserIcons from './user/UserIcons';
 
+   
+
+
 const NavBar = () => {
     const [supportsPWA, setSupportsPWA] = useState(false);
     const [promptInstall, setPromptInstall] = useState(null);
     const currentUser = null;
+   
 
     useEffect(() => {
         const handler = (e) => {
@@ -97,7 +102,11 @@ const NavBar = () => {
                                 <Button
                                     color='inherit'
                                     startIcon={<Lock />}
-                                    // onClick={}
+                                    onClick={() =>
+                                        dispatch({
+                                            type: 'OPEN_LOGIN',
+                                        })
+                                    }
                                 >
                                     Login
                                 </Button>
@@ -110,6 +119,7 @@ const NavBar = () => {
                 </Container>
             </AppBar>
             <Toolbar />
+            
         </React.Fragment>
     );
 };
