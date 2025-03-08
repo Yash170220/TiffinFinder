@@ -14,7 +14,7 @@ import { Close, Send } from '@mui/icons-material';
 import { useValue } from '../../context/ContextProvider';
 import PasswordField from './PasswordField';
 import GoogleOneTapLogin from './GoogleOneTapLogin';
-import { logIn, register } from '../../actions/user';
+// import { logIn, register } from '../../actions/user';
 
 const LogIn = () => {
     const {
@@ -36,29 +36,7 @@ const LogIn = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        const email = emailRef.current.value;
-        const password = passwordRef.current.value;
-
-        if (!isRegister) {
-            return logIn({ email, password }, dispatch);
-        }
-
-        const name = nameRef.current.value;
-        const confirmPassword = confirmPasswordRef.current.value;
-
-        if (password !== confirmPassword) {
-            return dispatch({
-                type: 'UPDATE_ALERT',
-                payload: {
-                    open: true,
-                    severity: 'error',
-                    message: 'Passwords do not match',
-                },
-            });
-        }
-
-        register({ name, email, password }, dispatch);
+        console.log('submit');
     };
 
     useEffect(() => {

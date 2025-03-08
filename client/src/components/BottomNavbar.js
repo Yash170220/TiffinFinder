@@ -53,7 +53,10 @@ const BottomNavbar = () => {
                         label='Add'
                         icon={<AddLocationAlt />}
                     />
-                    <BottomNavigationAction label='Info' icon={<InfoIcon />} />
+                    <BottomNavigationAction
+                        label='About Us'
+                        icon={<InfoIcon />}
+                    />
                 </BottomNavigation>
             </Paper>
         </Box>

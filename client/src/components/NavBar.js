@@ -12,16 +12,16 @@ import {
 import { Lock, Menu } from '@mui/icons-material';
 import DownloadIcon from '@mui/icons-material/Download';
 
+import { useValue } from '../context/ContextProvider';
 import UserIcons from './user/UserIcons';
 
-   
-
-
 const NavBar = () => {
+    const {
+        state: { currentUser },
+        dispatch,
+    } = useValue();
     const [supportsPWA, setSupportsPWA] = useState(false);
     const [promptInstall, setPromptInstall] = useState(null);
-    const currentUser = null;
-   
 
     useEffect(() => {
         const handler = (e) => {
@@ -84,7 +84,7 @@ const NavBar = () => {
                                 display: { xs: 'none', md: 'flex' },
                             }}
                         >
-                            Yummy Tummy !
+                            Tiffin Finder !
                         </Typography>
                         <Typography
                             variant='h6'
@@ -119,7 +119,6 @@ const NavBar = () => {
                 </Container>
             </AppBar>
             <Toolbar />
-            
         </React.Fragment>
     );
 };
