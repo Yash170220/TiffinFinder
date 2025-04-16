@@ -5,9 +5,9 @@ import Supercluster from 'supercluster';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import './ClusterMap.css';
-// import { getTiffins } from '../../actions/tiffin';
+import { getTiffins } from '../../actions/tiffin';
 import { useValue } from '../../context/ContextProvider';
-// import GeocoderInput from '../sidebar/GeocoderInput';
+import GeocoderInput from '../sidebar/GeocoderInput';
 import TiffinPopup from './TiffinPopup';
 
 const supercluster = new Supercluster({
@@ -27,9 +27,9 @@ const ClusterMap = () => {
     const [zoom, setZoom] = useState(0);
     const [popupInfo, setPopupInfo] = useState(null);
 
-    // useEffect(() => {
-    //     getTiffins(dispatch);
-    // }, []);
+    useEffect(() => {
+        getTiffins(dispatch);
+    }, []);
 
     useEffect(() => {
         // const points = filteredTiffins.map((tiffin) => ({
@@ -137,7 +137,7 @@ const ClusterMap = () => {
                     </Marker>
                 );
             })}
-            {/* <GeocoderInput />
+            <GeocoderInput />
             {popupInfo && (
                 <Popup
                     longitude={popupInfo.lng}
@@ -151,7 +151,7 @@ const ClusterMap = () => {
                 >
                     <TiffinPopup {...{ popupInfo }} />
                 </Popup>
-            )} */}
+            )}
             {/* <NavigationControl position='bottom-right' /> */}
             <GeolocateControl
                 style={{

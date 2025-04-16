@@ -6,6 +6,7 @@ import {
     useRef,
 } from 'react';
 import reducer from './reducer';
+// import useContextDevTools from 'context-api-dev-tools-extension';
 
 const INITIAL_STATE = {
     alert: {
@@ -21,6 +22,18 @@ const INITIAL_STATE = {
         file: null,
         photoURL: '',
     },
+    images: [],
+    details: {
+        title: '',
+        description: '',
+        price: 0,
+    },
+    location: { lng: 0, lat: 0 },
+    tiffins: [],
+    priceFilter: 30,
+    addressFilter: null,
+    filteredTiffins: [],
+    tiffin: null,
 };
 
 const Context = createContext(INITIAL_STATE);
@@ -31,6 +44,7 @@ export const useValue = () => {
 
 const ContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+    // const devTools = useContextDevTools(dispatch);
     const mapRef = useRef();
     const containerRef = useRef();
     useEffect(() => {
@@ -43,10 +57,16 @@ const ContextProvider = ({ children }) => {
         }
     }, []);
 
+    // useEffect(() => {
+    //     devTools.sendUpdatedState(state);
+    // }, [state, devTools]);
+
     return (
+        // <Context.Provider value={devTools.sendDispatch}>
         <Context.Provider value={{ state, dispatch, mapRef, containerRef }}>
             {children}
         </Context.Provider>
+        // </Context.Provider>
     );
 };
 

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 import {
     AppBar,
     Box,
@@ -14,12 +13,15 @@ import DownloadIcon from '@mui/icons-material/Download';
 
 import { useValue } from '../context/ContextProvider';
 import UserIcons from './user/UserIcons';
+import Sidebar from './sidebar/Sidebar';
 
 const NavBar = () => {
     const {
         state: { currentUser },
         dispatch,
     } = useValue();
+
+    const [isOpen, setIsOpen] = useState(false);
     const [supportsPWA, setSupportsPWA] = useState(false);
     const [promptInstall, setPromptInstall] = useState(null);
 
@@ -70,7 +72,7 @@ const NavBar = () => {
                                 sx={{ p: 0 }}
                                 size='large'
                                 color='inherit'
-                                // onClick={}
+                                onClick={() => setIsOpen(true)}
                             >
                                 <Menu />
                             </IconButton>
@@ -84,7 +86,7 @@ const NavBar = () => {
                                 display: { xs: 'none', md: 'flex' },
                             }}
                         >
-                            Tiffin Finder !
+                            Yummy Tummy !
                         </Typography>
                         <Typography
                             variant='h6'
@@ -119,6 +121,7 @@ const NavBar = () => {
                 </Container>
             </AppBar>
             <Toolbar />
+            <Sidebar {...{ isOpen, setIsOpen }} />
         </React.Fragment>
     );
 };

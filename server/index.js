@@ -2,9 +2,13 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 
+import tiffinRouter from "./routes/tiffinRouter.js";
+import userRouter from "./routes/userRouter.js";
+
 dotenv.config();
 
 const port = process.env.PORT || 5000;
+
 const app = express();
 
 app.use((req, res, next) => {
@@ -21,6 +25,8 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json({ limit: "10MB" }));
+app.use("/user", userRouter);
+app.use("/tiffin", tiffinRouter);
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to tiffin's API" });
 });
@@ -31,9 +37,7 @@ app.use((req, res) => {
 const startServer = async () => {
   try {
     mongoose.connect(process.env.MONGO_CONNECT).then(() => {
-      app.listen(port, () =>
-        console.log(`Database connected and Server listening on port: ${port}`)
-      );
+      app.listen(port, () => console.log(`Server listening on port: ${port}`));
     });
   } catch (error) {
     console.log(error);
