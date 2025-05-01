@@ -1,0 +1,21 @@
+.swiper {
+    background: #eee;
+    height: fit-content;
+}
+
+.swiper-wrapper {
+    align-items: center;
+}
+
+.swiper-slide img {
+    width: 100%;
+    min-height: 300px;
+    max-height: 550px;
+    object-fit: contain;
+}
+
+@media (max-width: 600px) {
+    .swiper-slide img {
+        max-height: 400px;
+    }
+}

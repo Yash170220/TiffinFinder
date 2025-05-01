@@ -32,26 +32,26 @@ const ClusterMap = () => {
     }, []);
 
     useEffect(() => {
-        // const points = filteredTiffins.map((tiffin) => ({
-        //     type: 'Feature',
-        //     properties: {
-        //         cluster: false,
-        //         tiffinId: tiffin._id,
-        //         price: tiffin.price,
-        //         title: tiffin.title,
-        //         description: tiffin.description,
-        //         lng: tiffin.lng,
-        //         lat: tiffin.lat,
-        //         images: tiffin.images,
-        //         uPhoto: tiffin.uPhoto,
-        //         uName: tiffin.uName,
-        //     },
-        //     geometry: {
-        //         type: 'Point',
-        //         coordinates: [parseFloat(tiffin.lng), parseFloat(tiffin.lat)],
-        //     },
-        // }));
-        // setPoints(points);
+        const points = filteredTiffins.map((tiffin) => ({
+            type: 'Feature',
+            properties: {
+                cluster: false,
+                tiffinId: tiffin._id,
+                price: tiffin.price,
+                title: tiffin.title,
+                description: tiffin.description,
+                lng: tiffin.lng,
+                lat: tiffin.lat,
+                images: tiffin.images,
+                uPhoto: tiffin.uPhoto,
+                uName: tiffin.uName,
+            },
+            geometry: {
+                type: 'Point',
+                coordinates: [parseFloat(tiffin.lng), parseFloat(tiffin.lat)],
+            },
+        }));
+        setPoints(points);
     }, [filteredTiffins]);
 
     useEffect(() => {

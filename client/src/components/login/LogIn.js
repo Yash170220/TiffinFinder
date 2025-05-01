@@ -14,7 +14,7 @@ import { Close, Send } from '@mui/icons-material';
 import { useValue } from '../../context/ContextProvider';
 import PasswordField from './PasswordField';
 import GoogleOneTapLogin from './GoogleOneTapLogin';
-// import { logIn, register } from '../../actions/user';
+import { logIn, register } from '../../actions/user';
 
 const LogIn = () => {
     const {
@@ -36,7 +36,29 @@ const LogIn = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('submit');
+
+        const email = emailRef.current.value;
+        const password = passwordRef.current.value;
+
+        if (!isRegister) {
+            return logIn({ email, password }, dispatch);
+        }
+
+        const name = nameRef.current.value;
+        const confirmPassword = confirmPasswordRef.current.value;
+
+        if (password !== confirmPassword) {
+            return dispatch({
+                type: 'UPDATE_ALERT',
+                payload: {
+                    open: true,
+                    severity: 'error',
+                    message: 'Passwords do not match',
+                },
+            });
+        }
+
+        register({ name, email, password }, dispatch);
     };
 
     useEffect(() => {
@@ -98,7 +120,7 @@ const LogIn = () => {
                         />
                     )}
                 </DialogContent>
-                <DialogActions sx={{ p: '19px' }}>
+                <DialogActions sx={{ p: '20px', pb: '5px' }}>
                     <Button
                         type='submit'
                         variant='contained'
@@ -116,9 +138,9 @@ const LogIn = () => {
                     {isRegister ? 'LogIn' : 'Register'}
                 </Button>
             </DialogActions>
-            <DialogActions sx={{ justifyContent: 'center', p: '24px' }}>
+            {/* <DialogActions sx={{ justifyContent: 'center', p: '24px' }}>
                 <GoogleOneTapLogin />
-            </DialogActions>
+            </DialogActions> */}
         </Dialog>
     );
 };

@@ -12,6 +12,9 @@ import ClusterMap from './map/ClusterMap';
 import Tiffins from './tiffin/Tiffins';
 import AddTiffins from './addTiffin/AddTiffins';
 import AboutUs from './AboutUs';
+import Protected from './protected/Protected';
+import UserTiffins from './user/UserTiffins';
+import StorefrontIcon from '@mui/icons-material/Storefront';
 
 const BottomNavbar = () => {
     const [value, setValue] = useState(0);
@@ -25,8 +28,17 @@ const BottomNavbar = () => {
                 {
                     0: <ClusterMap />,
                     1: <Tiffins />,
-                    2: <AddTiffins setPage={setValue} />,
-                    3: <AboutUs />,
+                    2: (
+                        <Protected>
+                            <AddTiffins setPage={setValue} />
+                        </Protected>
+                    ),
+                    3: (
+                        <Protected>
+                            <UserTiffins />
+                        </Protected>
+                    ),
+                    4: <AboutUs />,
                 }[value]
             }
             <Paper
@@ -52,6 +64,10 @@ const BottomNavbar = () => {
                     <BottomNavigationAction
                         label='Add'
                         icon={<AddLocationAlt />}
+                    />
+                    <BottomNavigationAction
+                        label='My Tiffins'
+                        icon={<StorefrontIcon />}
                     />
                     <BottomNavigationAction
                         label='About Us'
