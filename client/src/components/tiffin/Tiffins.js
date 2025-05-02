@@ -6,10 +6,8 @@ import {
     ImageList,
     ImageListItem,
     ImageListItemBar,
-    Rating,
     Tooltip,
 } from '@mui/material';
-import { StarBorder } from '@mui/icons-material';
 import { useValue } from '../../context/ContextProvider';
 
 const Tiffins = () => {
@@ -66,27 +64,7 @@ const Tiffins = () => {
                                 alt={tiffin.title}
                                 loading='lazy'
                             />
-                            <ImageListItemBar
-                                title={tiffin.title}
-                                actionIcon={
-                                    <Rating
-                                        sx={{
-                                            color: 'rgba(255,255,255,0.8)',
-                                            mr: '5px',
-                                        }}
-                                        name='room-rating'
-                                        defaultValue={3.5}
-                                        precision={0.5}
-                                        emptyIcon={
-                                            <StarBorder
-                                                sx={{
-                                                    color: 'rgba(255,255,255, 0.8)',
-                                                }}
-                                            />
-                                        }
-                                    />
-                                }
-                            />
+                            <ImageListItemBar title={tiffin.title} />
                         </ImageListItem>
                     </Card>
                 ))}
