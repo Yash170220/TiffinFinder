@@ -1,32 +1,23 @@
 import React, { forwardRef, useEffect, useState } from 'react';
 import {
     AppBar,
-    Avatar,
     Box,
     Container,
     Dialog,
     IconButton,
-    Rating,
     Slide,
     Stack,
     Toolbar,
-    Tooltip,
     Typography,
 } from '@mui/material';
+import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import Close from '@mui/icons-material/Close';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import {
-    Autoplay,
-    EffectCoverflow,
-    Lazy,
-    Navigation,
-    Zoom,
-    Pagination,
-} from 'swiper';
+import { EffectCoverflow, Lazy, Navigation, Zoom, Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-coverflow';
@@ -51,9 +42,11 @@ const Tiffin = () => {
     const [address, setAddress] = useState(null);
     const [likedByUser, setLikedByUser] = useState(false);
     const [dislikedByUser, setDislikedByUser] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(0);
 
     useEffect(() => {
         if (tiffin) {
+            console.log('Tiffin:', tiffin);
             dispatch({
                 type: 'START_LOADING',
             });
@@ -62,7 +55,6 @@ const Tiffin = () => {
             fetch(url)
                 .then((response) => response.json())
                 .then((data) => setAddress(data.features[0]));
-            console.log(tiffin);
 
             async function getTiffins(dispatch) {
                 await fetch(
@@ -99,13 +91,12 @@ const Tiffin = () => {
                 getTiffins(dispatch);
             }
 
-            console.log(currentUser);
             const likedByUser = tiffin?.likes?.some(
-                (like) => like.uid == currentUser?.id
+                (like) => like.uid === currentUser?.id
             );
             setLikedByUser(likedByUser);
             const dislikedByUser = tiffin?.dislikes?.some(
-                (dislike) => dislike.uid == currentUser?.id
+                (dislike) => dislike.uid === currentUser?.id
             );
             setDislikedByUser(dislikedByUser);
             dispatch({
@@ -231,6 +222,44 @@ const Tiffin = () => {
             });
     };
 
+    const getNutriInfo = async (imageURL) => {
+        dispatch({ type: 'START_LOADING' });
+        try {
+            const response = await fetch(
+                'https://tiffin-fastapi.onrender.com/analyze',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ image_url: imageURL }),
+                }
+            );
+            const data = await response.json();
+            console.log('Parsed data:', data.summary);
+            dispatch({
+                type: 'UPDATE_ALERT',
+                payload: {
+                    open: 'true',
+                    severity: 'info',
+                    message: data.summary,
+                },
+            });
+        } catch (error) {
+            console.error('Fetch error:', error);
+            dispatch({
+                type: 'UPDATE_ALERT',
+                payload: {
+                    open: 'true',
+                    severity: 'error',
+                    message: 'Error fetching nutrition information',
+                },
+            });
+        } finally {
+            dispatch({ type: 'END_LOADING' });
+        }
+    };
+
     return (
         <Dialog
             fullScreen
@@ -258,6 +287,9 @@ const Tiffin = () => {
                         '--swiper-navigation-color': '#fff',
                         '--swiper-pagination-color': '#fff',
                     }}
+                    onSlideChangeTransitionEnd={(swiper) =>
+                        setActiveIndex(swiper.activeIndex)
+                    }
                     zoom={true}
                     navigation={true}
                     pagination={{
@@ -265,7 +297,6 @@ const Tiffin = () => {
                     }}
                     autoplay={true}
                     modules={[
-                        Autoplay,
                         EffectCoverflow,
                         Zoom,
                         Lazy,
@@ -292,17 +323,32 @@ const Tiffin = () => {
                             </div>
                         </SwiperSlide>
                     ))}
-                    <Tooltip
-                        title={tiffin?.uName || ''}
+
+                    <AutoGraphIcon
                         sx={{
+                            fontSize: '2rem',
+                            color: '#fff',
+                            padding: 1,
+                            zIndex: 10,
+                            backgroundColor: '#1976d2',
+                            borderRadius: '50%',
                             position: 'absolute',
-                            bottom: '8px',
-                            left: '8px',
-                            zIndex: 2,
+                            bottom: '10px',
+                            left: '10px',
+                            transition: 'all 0.3s ease',
+                            cursor: 'pointer',
+                            '&:hover': {
+                                transform: 'scale(1.1)',
+                            },
+                            '&:active': {
+                                transform: 'scale(0.95)',
+                            },
                         }}
-                    >
-                        <Avatar src={tiffin?.uPhoto || ''} />
-                    </Tooltip>
+                        aria-label='Get Nutrition Information'
+                        onClick={() => {
+                            getNutriInfo(tiffin?.images[activeIndex]);
+                        }}
+                    />
                 </Swiper>
                 <Stack sx={{ p: 3 }} spacing={2}>
                     <Stack
